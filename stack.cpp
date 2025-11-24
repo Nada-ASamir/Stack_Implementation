@@ -1,46 +1,50 @@
 #include<iostream>
 using namespace std;
-int const MAX_SIZE = 100;
-class stack{
+
+template <class t>
+class Stack{
     private:
+        int static const MAX_SIZE = 100;
         int top;
-        int item[MAX_SIZE];
+        t item[MAX_SIZE];
 
     public:
-        stack() : top(-1) {};
+        Stack() : top(-1) {};
 
-        void add(int element)
+        void add(t element)
         {
             if(top>=MAX_SIZE-1){
-                cout << "Stack out of place";
+                cout << "Stack is full\n";
             }else{
                 top++;
-            item[top] = element;
+                item[top] = element;
             }
         }
 
 
-        bool isEmpty(){
+        bool isEmpty() const{
             return top<0;
         }
 
         void pop(){
-            if(isEmpty())cout<<"Stack empty";
+            if(isEmpty())cout<<"Stack is empty\n";
             else{
                 top--;
             }
         }
-        int getTop(){
-            if(isEmpty()){
-                cout << "Stack empty";
-                return 0;
-            }
-            else{
-                return item[top];
-            }
+        bool getTop(t&element){
+           if(isEmpty()){
+               return false;
+           }else{
+               element = item[top];
+               return true;
+           }
         }
 
-        void print(){
+        void print() {
+            if(isEmpty()){
+                cout << "No elements to show, Stack empty.";
+            }else{
             cout << '[';
             for (int i = top; i>=0; i--)
             {
@@ -49,7 +53,43 @@ class stack{
             }
             cout << ']'<<'\n';
         }
+        }
+
+        void clear(){
+            top = -1;
+        }
+
+        int size(){
+            return top + 1;
+        }
 
 
 };
+
+int main(){
+    Stack<int>s;
+    s.add(1);
+    s.add(2);
+    s.add(3);
+    s.add(4);
+
+    s.print();
+    
+    int high = 0;
+    s.getTop(high);
+    cout << high << '\n';
+
+    int x=s.size();
+    cout << x << '\n';
+
+    s.pop();
+
+    x=s.size();
+    cout << x << '\n';
+
+    s.clear();
+
+    x=s.size();
+    cout << x << '\n';
+}
 
